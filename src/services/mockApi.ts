@@ -62,7 +62,8 @@ export const mockApi = {
       for (const endNode of endNodes) {
         const outgoingFromEnd = edges.filter(e => e.source === endNode.id);
         if (outgoingFromEnd.length > 0) {
-          errors.push(`End Node "${endNode.data.endMessage || 'End'}" cannot have outgoing connections.`);
+          const data = endNode.data as any;
+          errors.push(`End Node "${data.endMessage || 'End'}" cannot have outgoing connections.`);
         }
       }
     }
@@ -147,21 +148,31 @@ export const mockApi = {
         executionPath.push(node);
         
         switch (node.type) {
-          case NodeType.START:
-            logs.push(`[START] Initiated workflow: ${node.data.title || 'Start'}`);
+          case NodeType.START: {
+            const data = node.data as any;
+            logs.push(`[START] Initiated workflow: ${data.title || 'Start'}`);
             break;
-          case NodeType.TASK:
-            logs.push(`[TASK] Assigned task "${node.data.title}" to ${node.data.assignee || 'Unassigned'}`);
+          }
+          case NodeType.TASK: {
+            const data = node.data as any;
+            logs.push(`[TASK] Assigned task "${data.title}" to ${data.assignee || 'Unassigned'}`);
             break;
-          case NodeType.APPROVAL:
-            logs.push(`[APPROVAL] Requesting approval from ${node.data.approverRole || 'Manager'}`);
+          }
+          case NodeType.APPROVAL: {
+            const data = node.data as any;
+            logs.push(`[APPROVAL] Requesting approval from ${data.approverRole || 'Manager'}`);
             break;
-          case NodeType.AUTOMATED:
-            logs.push(`[SYSTEM] Executing action: ${node.data.actionId || 'Unknown'}`);
+          }
+          case NodeType.AUTOMATED: {
+            const data = node.data as any;
+            logs.push(`[SYSTEM] Executing action: ${data.actionId || 'Unknown'}`);
             break;
-          case NodeType.END:
-            logs.push(`[END] Workflow completed. Message: ${node.data.endMessage}`);
+          }
+          case NodeType.END: {
+            const data = node.data as any;
+            logs.push(`[END] Workflow completed. Message: ${data.endMessage}`);
             break;
+          }
         }
 
         // Find next node

@@ -3,9 +3,10 @@ import { WorkflowCanvas } from './components/canvas/WorkflowCanvas';
 import { Sidebar } from './components/panels/Sidebar';
 import { NodeEditorPanel } from './components/panels/NodeEditorPanel';
 import { SandboxPanel } from './components/panels/SandboxPanel';
-import { useWorkflowStore } from './stores/workflowStore';
+import { useWorkflowStore, AppNode } from './stores/workflowStore';
 import { getLayoutedElements } from './utils/layout';
 import { Undo2, Redo2, Network } from 'lucide-react';
+import { Edge } from '@xyflow/react';
 
 function App() {
   const [isSandboxOpen, setIsSandboxOpen] = useState(false);
@@ -34,8 +35,8 @@ function App() {
         try {
           const parsed = JSON.parse(e.target?.result as string);
           if (parsed.nodes && parsed.edges) {
-            setNodes(parsed.nodes);
-            setEdges(parsed.edges);
+            setNodes(parsed.nodes as AppNode[]);
+            setEdges(parsed.edges as Edge[]);
           }
         } catch (error) {
           console.error("Failed to parse workflow file");

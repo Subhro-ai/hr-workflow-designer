@@ -6,13 +6,15 @@ export enum NodeType {
   END = 'end',
 }
 
+export type BaseNodeData = Record<string, unknown>;
+
 // Data structures for node configuration forms
-export interface StartNodeData {
+export interface StartNodeData extends BaseNodeData {
   title: string;
   metadata?: Record<string, string>;
 }
 
-export interface TaskNodeData {
+export interface TaskNodeData extends BaseNodeData {
   title: string;
   description?: string;
   assignee?: string;
@@ -20,19 +22,19 @@ export interface TaskNodeData {
   customFields?: Record<string, string>;
 }
 
-export interface ApprovalNodeData {
+export interface ApprovalNodeData extends BaseNodeData {
   title: string;
   approverRole?: string; // e.g. "Manager", "HRBP", "Director"
   autoApproveThreshold?: number;
 }
 
-export interface AutomatedStepNodeData {
+export interface AutomatedStepNodeData extends BaseNodeData {
   title: string;
   actionId?: string; // Corresponds to the mock API list
   actionParams?: Record<string, string>;
 }
 
-export interface EndNodeData {
+export interface EndNodeData extends BaseNodeData {
   endMessage: string;
   isSummaryFlag?: boolean;
 }

@@ -1,5 +1,6 @@
 import dagre from 'dagre';
-import { Node, Edge } from '@xyflow/react';
+import { Edge } from '@xyflow/react';
+import { AppNode } from '../stores/workflowStore';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -8,8 +9,7 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 250;
 const nodeHeight = 100;
 
-export const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'TB') => {
-  const isHorizontal = direction === 'LR';
+export const getLayoutedElements = (nodes: AppNode[], edges: Edge[], direction = 'TB') => {
   dagreGraph.setGraph({ rankdir: direction });
 
   nodes.forEach((node) => {

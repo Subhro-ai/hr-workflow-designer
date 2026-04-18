@@ -12,10 +12,22 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
 } from '@xyflow/react';
-import { NodeType, NodeData } from '../types/workflow';
+import { 
+  StartNodeData,
+  TaskNodeData,
+  ApprovalNodeData,
+  AutomatedStepNodeData,
+  EndNodeData,
+  NodeData
+} from '../types/workflow';
 
 // Define our specific node type
-export type AppNode = Node<NodeData, NodeType>;
+export type AppNode = 
+  | Node<StartNodeData, 'start'>
+  | Node<TaskNodeData, 'task'>
+  | Node<ApprovalNodeData, 'approval'>
+  | Node<AutomatedStepNodeData, 'automated'>
+  | Node<EndNodeData, 'end'>;
 
 export interface TemporalState {
   nodes: AppNode[];
@@ -137,7 +149,7 @@ export const useWorkflowStore = create<WorkflowState>((set, get) => ({
           return {
             ...node,
             data: { ...node.data, ...data } as NodeData,
-          };
+          } as AppNode;
         }
         return node;
       }),

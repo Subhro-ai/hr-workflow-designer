@@ -10,7 +10,7 @@ import {
 import '@xyflow/react/dist/style.css';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useWorkflowStore } from '../../stores/workflowStore';
+import { useWorkflowStore, AppNode } from '../../stores/workflowStore';
 import { nodeTypes } from '../nodes';
 import { NodeType, NodeData } from '../../types/workflow';
 
@@ -62,7 +62,7 @@ const WorkflowCanvasComponent = () => {
         type,
         position,
         data: defaultNodeData[type] as NodeData,
-      };
+      } as AppNode;
 
       addNode(newNode);
     },
