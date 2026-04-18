@@ -1,0 +1,96 @@
+{
+  "nodes": [
+    {
+      "id": "node-1-start",
+      "type": "start",
+      "position": {
+        "x": 250,
+        "y": 50
+      },
+      "data": {
+        "title": "Onboarding Initiated",
+        "metadata": {
+          "department": "Engineering",
+          "priority": "High"
+        }
+      }
+    },
+    {
+      "id": "node-2-task",
+      "type": "task",
+      "position": {
+        "x": 250,
+        "y": 180
+      },
+      "data": {
+        "title": "Collect Documents",
+        "description": "Collect ID and Tax forms from the new hire.",
+        "assignee": "hr_admin@company.com",
+        "dueDate": "2026-04-25"
+      }
+    },
+    {
+      "id": "node-3-approval",
+      "type": "approval",
+      "position": {
+        "x": 250,
+        "y": 310
+      },
+      "data": {
+        "title": "Manager Verification",
+        "approverRole": "Manager",
+        "autoApproveThreshold": 3
+      }
+    },
+    {
+      "id": "node-4-automated",
+      "type": "automated",
+      "position": {
+        "x": 250,
+        "y": 440
+      },
+      "data": {
+        "title": "Welcome Email",
+        "actionId": "send_email",
+        "actionParams": {
+          "to": "new_hire@company.com",
+          "subject": "Welcome to the Team!"
+        }
+      }
+    },
+    {
+      "id": "node-5-end",
+      "type": "end",
+      "position": {
+        "x": 250,
+        "y": 570
+      },
+      "data": {
+        "endMessage": "Onboarding Completed",
+        "isSummaryFlag": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-1-2",
+      "source": "node-1-start",
+      "target": "node-2-task"
+    },
+    {
+      "id": "edge-2-3",
+      "source": "node-2-task",
+      "target": "node-3-approval"
+    },
+    {
+      "id": "edge-3-4",
+      "source": "node-3-approval",
+      "target": "node-4-automated"
+    },
+    {
+      "id": "edge-4-5",
+      "source": "node-4-automated",
+      "target": "node-5-end"
+    }
+  ]
+}
