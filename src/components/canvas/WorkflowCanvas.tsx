@@ -5,7 +5,7 @@ import {
   Controls,
   MiniMap,
   ReactFlowProvider,
-  Panel,
+  useReactFlow,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { v4 as uuidv4 } from 'uuid';
@@ -24,6 +24,7 @@ const defaultNodeData: Record<NodeType, Partial<NodeData>> = {
 
 const WorkflowCanvasComponent = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const { screenToFlowPosition } = useReactFlow();
   
   const {
     nodes,
@@ -50,14 +51,11 @@ const WorkflowCanvasComponent = () => {
         return;
       }
 
-      const reactFlowBounds = reactFlowWrapper.current?.getBoundingClientRect();
-      
-      if (!reactFlowBounds) return;
-
-      const position = {
-        x: event.clientX - reactFlowBounds.left,
-        y: event.clientY - reactFlowBounds.top,
-      };
+      // Convert the screen coordinate to the canvas coordinate
+      const position = screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
 
       const newNode = {
         id: uuidv4(),
@@ -92,6 +90,8 @@ const WorkflowCanvasComponent = () => {
         onConnect={onConnect}
         onNodeClick={onNodeClick}
         onPaneClick={onPaneClick}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
         nodeTypes={nodeTypes}
         fitView
         className="bg-slate-50"
