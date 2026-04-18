@@ -4,10 +4,15 @@ import { Sidebar } from './components/panels/Sidebar';
 import { NodeEditorPanel } from './components/panels/NodeEditorPanel';
 import { SandboxPanel } from './components/panels/SandboxPanel';
 import { useWorkflowStore } from './stores/workflowStore';
+import { getLayoutedElements } from './utils/layout';
+import { Undo2, Redo2, Network } from 'lucide-react';
 
 function App() {
   const [isSandboxOpen, setIsSandboxOpen] = useState(false);
-  const { nodes, edges, setNodes, setEdges } = useWorkflowStore();
+  const { 
+    nodes, edges, setNodes, setEdges, 
+    undo, redo, past, future 
+  } = useWorkflowStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleExport = () => {
@@ -40,6 +45,12 @@ function App() {
     }
   };
 
+  const handleAutoLayout = () => {
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges, 'TB');
+    setNodes([...layoutedNodes]);
+    setEdges([...layoutedEdges]);
+  };
+
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-background">
       {/* Hidden file input for importing */}
@@ -59,23 +70,55 @@ function App() {
           </div>
           <h1 className="font-semibold text-foreground tracking-tight">Workflow Designer</h1>
         </div>
-        <div className="flex items-center gap-3">
+        
+        <div className="flex items-center gap-2">
+          <div className="flex items-center bg-muted/50 rounded-md p-1 border">
+            <button 
+              onClick={undo}
+              disabled={past.length === 0}
+              className="p-1.5 text-muted-foreground hover:text-foreground disabled:opacity-30 rounded-sm hover:bg-background transition-colors"
+              title="Undo"
+            >
+              <Undo2 size={16} />
+            </button>
+            <button 
+              onClick={redo}
+              disabled={future.length === 0}
+              className="p-1.5 text-muted-foreground hover:text-foreground disabled:opacity-30 rounded-sm hover:bg-background transition-colors"
+              title="Redo"
+            >
+              <Redo2 size={16} />
+            </button>
+            <div className="w-px h-4 bg-border mx-1" />
+            <button 
+              onClick={handleAutoLayout}
+              className="p-1.5 flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground rounded-sm hover:bg-background transition-colors"
+              title="Auto-Layout Graph"
+            >
+              <Network size={16} /> Layout
+            </button>
+          </div>
+
+          <div className="w-px h-6 bg-border mx-2" />
+
           <button 
             onClick={() => fileInputRef.current?.click()}
             className="px-3 py-1.5 text-sm font-medium border border-input bg-transparent hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
           >
-            Import JSON
+            Import
           </button>
           <button 
             onClick={handleExport}
             className="px-3 py-1.5 text-sm font-medium border border-input bg-transparent hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
           >
-            Export JSON
+            Export
           </button>
+          
           <div className="w-px h-6 bg-border mx-1" />
+          
           <button 
             onClick={() => setIsSandboxOpen(!isSandboxOpen)}
-            className={`px-3 py-1.5 text-sm font-medium border rounded-md transition-colors ${isSandboxOpen ? 'bg-accent text-accent-foreground border-accent' : 'border-input bg-transparent hover:bg-accent hover:text-accent-foreground'}`}
+            className={`px-4 py-1.5 text-sm font-medium border rounded-md transition-all shadow-sm ${isSandboxOpen ? 'bg-accent text-accent-foreground border-accent' : 'border-primary/20 bg-primary/5 text-primary hover:bg-primary hover:text-primary-foreground'}`}
           >
             {isSandboxOpen ? 'Close Sandbox' : 'Sandbox / Test'}
           </button>

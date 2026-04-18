@@ -37,23 +37,25 @@ The Sandbox doesn't just pretend to work. It actually parses the graph as a Dire
 - **No Orphan Nodes** (every node must be connected)
 - **Cycle Detection** (Uses Depth-First Search to ensure the workflow is a DAG - Directed Acyclic Graph)
 
-## ✅ Completed Features
+## ✅ Completed Features & Engineering Highlights
 
+- [x] **Schema-Driven Node Editor**: Dynamic forms based on selected node type. Proves extensibility.
+- [x] **Undo / Redo (Temporal State)**: Implemented a custom temporal history stack inside Zustand to manage `past` and `future` states for the graph. Shows deep state-management understanding.
+- [x] **Dagre.js Graph Auto-Layout**: Implemented an algorithmic layout engine that automatically untangles messy nodes into a perfect Directed Acyclic Graph tree structure.
+- [x] **Graph Structural Validation (DFS)**: Sandbox uses Depth-First Search cycle detection, and validates orphans, starts, and ends.
 - [x] **React Flow Canvas** with custom themed nodes
-- [x] **Sidebar** with Drag-and-Drop support
-- [x] **Schema-Driven Node Editor** (Dynamic forms based on selected node type)
-- [x] **Key-Value Pair Input Support** for metadata and custom fields
 - [x] **Mock API Integration** for fetching automation actions
-- [x] **Sandbox Simulation Panel** with full structural graph validation and visual execution logs
-- [x] **Export / Import JSON** functionality (Bonus Feature)
-- [x] **Mini-map & Zoom Controls** (Bonus Feature)
+- [x] **Sandbox Simulation Panel** with visual execution logs
+- [x] **Export / Import JSON** functionality
+- [x] **Sidebar** with Drag-and-Drop support
+- [x] **Key-Value Pair Input Support** for metadata and custom fields
+- [x] **Mini-map & Zoom Controls**
 
 ## 🔮 What I would add with more time
 
-1. **Undo / Redo History**: Could be easily implemented by tracking a history stack of the Zustand state.
-2. **Auto-Layout (Dagre.js)**: A button to automatically tidy up messy graphs.
-3. **Node Templates**: Pre-configured groupings of nodes that can be dragged as a single unit (e.g., "Standard Background Check Flow").
-4. **Visual Error Badges**: Highlighting specific nodes in red on the canvas if they fail validation in the sandbox.
+1. **Node Templates**: Pre-configured groupings of nodes that can be dragged as a single unit (e.g., "Standard Background Check Flow").
+2. **Visual Error Badges**: Highlighting specific nodes in red on the canvas if they fail validation in the sandbox.
+3. **Live Execution Highlighting**: As the simulation runs, the nodes light up sequentially on the canvas.
 
 ## 🐛 Tricky Bug Solved During Development
 
