@@ -1,6 +1,8 @@
-# Tredence HR Workflow Designer
+# Tredence HR Workflow Designer (Tredence Case Study)
 
-A robust, schema-driven visual workflow editor built with **React**, **TypeScript**, **Zustand**, and **React Flow**. Designed to allow HR admins to visually create, configure, and simulate internal workflows like onboarding or leave approvals.
+🚀 **[Live Interactive Demo](https://hr-workflow-designer-one.vercel.app/)**
+
+A robust, architectural-grade visual workflow editor built with React Flow, Zustand, and Tailwind CSS. This application allows users to design, configure, and simulate complex HR processes (like Onboarding or Background Checks) through an intuitive drag-and-drop interface.
 
 ## 🚀 Quick Start
 
