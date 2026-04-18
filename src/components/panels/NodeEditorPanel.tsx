@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useWorkflowStore } from '../../stores/workflowStore';
 import { nodeFormSchemas, FormField } from '../../constants/formSchemas';
 import { NodeData } from '../../types/workflow';
+import { mockApi, MockAutomatedAction } from '../../services/mockApi';
 
 export const NodeEditorPanel: React.FC = () => {
   const { nodes, selectedNodeId, updateNodeData } = useWorkflowStore();
@@ -9,6 +10,11 @@ export const NodeEditorPanel: React.FC = () => {
 
   // We use local state to handle fast typing without lagging the canvas
   const [localData, setLocalData] = useState<Partial<NodeData>>({});
+  const [mockActions, setMockActions] = useState<MockAutomatedAction[]>([]);
+
+  useEffect(() => {
+    mockApi.getAutomations().then(setMockActions).catch(console.error);
+  }, []);
 
   useEffect(() => {
     if (selectedNode) {
@@ -29,7 +35,15 @@ export const NodeEditorPanel: React.FC = () => {
     );
   }
 
-  const schema = nodeFormSchemas[selectedNode.type];
+  const schema = nodeFormSchemas[selectedNode.type].map(field => {
+    if (field.key === 'actionId') {
+      return {
+        ...field,
+        options: mockActions.map(action => ({ label: action.label, value: action.id }))
+      };
+    }
+    return field;
+  });
 
   const handleChange = (key: string, value: any) => {
     const updatedData = { ...localData, [key]: value };
